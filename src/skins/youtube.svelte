@@ -11,8 +11,9 @@
     <video>
       <source src="/assets/video.mp4" type="video/mp4" />
     </video>
-    <section class="controls__container">
-      <div class="controls__wrapper">
+    <div class="controls__wrapper">
+      <input type="range" class="range" />
+      <div class="controls__icons">
         <div class="primary">
           <Icon icon={playArrow} width="35" />
           <Icon icon="material-symbols:skip-next" width="35" />
@@ -28,29 +29,37 @@
           <Icon icon="material-symbols:fullscreen" width="25" />
         </div>
       </div>
-    </section>
+    </div>
   </div>
 </main>
 
 <style scoped>
   .container {
-    background-color: red;
     width: 60rem;
     display: flex;
     flex-direction: column;
     position: relative;
   }
 
-  .controls__container {
-    /* background-color: black; */
+  .controls__wrapper {
+    background-image: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.308),
+      transparent
+    );
     width: 100%;
+    color: white;
+    padding: 0 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
     position: absolute;
     bottom: 0;
   }
-  .controls__wrapper {
-    /* width: 100%; */
-    color: white;
-    padding: 0.5rem 1rem;
+
+  .controls__icons {
+    padding: 0.3rem 0.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
