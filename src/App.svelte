@@ -1,8 +1,10 @@
 <script>
-    import Youtube from "./skins/youtube.svelte";
+  import Youtube from "./skins/youtube.svelte";
 </script>
 
-<main />
+<main>
+  <Youtube />
+</main>
 
 <style>
 </style>
