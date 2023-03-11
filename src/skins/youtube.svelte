@@ -12,7 +12,7 @@
       <source src="/assets/video.mp4" type="video/mp4" />
     </video>
     <div class="controls__wrapper">
-      <input type="range" class="range" />
+      <!-- <input type="range" class="range" /> -->
       <div class="controls__icons">
         <div class="primary">
           <Icon icon={playArrow} width="35" />
