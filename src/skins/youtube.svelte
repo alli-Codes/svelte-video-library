@@ -1,6 +1,7 @@
 <script>
   import Icon from "@iconify/svelte";
   import playArrow from "@iconify/icons-material-symbols/play-arrow";
+  import VideoRangeControl from "../components/video-range-control.svelte";
   //   import pauseOutline from "@iconify/icons-material-symbols/pause-outline";
 </script>
 
@@ -12,7 +13,7 @@
       <source src="/assets/video.mp4" type="video/mp4" />
     </video>
     <div class="controls__wrapper">
-      <!-- <input type="range" class="range" /> -->
+      <VideoRangeControl />
       <div class="controls__icons">
         <div class="primary">
           <Icon icon={playArrow} width="35" />

@@ -12,7 +12,9 @@
     "@iconify/icons-material-symbols": "^1.2.32",
     "@iconify/svelte": "^3.1.0",
     "@sveltejs/vite-plugin-svelte": "^2.0.2",
+    "node-sass": "^8.0.0",
     "svelte": "^3.55.1",
+    "svelte-preprocess": "^5.0.1",
     "vite": "^4.1.0"
   }
 }
