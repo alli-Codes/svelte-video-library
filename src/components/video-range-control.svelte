@@ -42,7 +42,7 @@
     }
 
     .range__container {
-      background-color: rgb(218, 216, 216);
+      background-color: rgb(207, 207, 207);
       width: 100%;
       height: 0.2rem;
       outline: none;
