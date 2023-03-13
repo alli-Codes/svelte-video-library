@@ -7,3 +7,5 @@ const playPauseMedia = function (media, isPlaying) {
   }
   media.play();
 };
+
+export default playPauseMedia;

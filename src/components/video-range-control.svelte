@@ -5,7 +5,6 @@
     // rangeThumb.style.left = this.value + "%";
     rangeProgress.style.width = this.value + "%";
   };
-  export let videoElement;
 </script>
 
 <main>
