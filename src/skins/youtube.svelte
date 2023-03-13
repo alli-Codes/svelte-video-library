@@ -1,11 +1,16 @@
 <script>
+  import { onMount } from "svelte";
   import Icon from "@iconify/svelte";
-  import playArrow from "@iconify/icons-material-symbols/play-arrow";
   import VideoRangeControl from "../components/video-range-control.svelte";
-  import playPauseMedia from "../lib/playPauseMedia";
+  import videoPlayer from "../lib/playPauseMedia";
   //   import pauseOutline from "@iconify/icons-material-symbols/pause-outline";
 
   let videoElement;
+  let isPlaying = false;
+  let player;
+  onMount(() => {
+    player = new videoPlayer(videoElement);
+  });
   // const check = () => console.log(videoElement.pause());
 </script>
 
@@ -20,8 +25,20 @@
       <VideoRangeControl />
       <div class="controls__icons">
         <div class="primary">
-          <button on:click={() => playPauseMedia(videoElement)}>
-            <Icon icon={playArrow} width="35" />
+          <button
+            on:click={() => {
+              player.togglePlayState();
+              isPlaying = !isPlaying;
+            }}
+          >
+            {#if !isPlaying}<Icon
+                icon="material-symbols:play-arrow"
+                width="35"
+              />
+            {:else}<Icon
+                icon="material-symbols:pause-outline"
+                width="35"
+              />{/if}
           </button>
           <button><Icon icon="material-symbols:skip-next" width="35" /></button>
           <button><Icon icon="material-symbols:volume-up" width="25" /></button>
@@ -90,6 +107,7 @@
       color: white;
       border: none;
       cursor: pointer;
+      transition: all 3s ease;
     }
   }
 </style>
