@@ -1,4 +1,5 @@
 <script>
+  import { writable } from "svelte/store";
   import { onMount } from "svelte";
   import Icon from "@iconify/svelte";
   import VideoRangeControl from "../components/video-range-control.svelte";
@@ -6,20 +7,44 @@
   //   import pauseOutline from "@iconify/icons-material-symbols/pause-outline";
 
   let videoElement;
-  let isPlaying = false;
+  let isPlaying = writable(false);
+  let hasEnded = writable(false);
   let player;
-  // let currentTime = 0;
+  let fullTime = writable("00:00 / 00:00");
+  let playBtn = writable("");
+
+  const checkMediaPlayState = function () {
+    if ($isPlaying) {
+      playBtn.set("material-symbols:pause-outline");
+      return;
+    }
+    if ($hasEnded) {
+      playBtn.set("material-symbols:play-arrow");
+      return;
+    }
+    playBtn.set("material-symbols:play-arrow");
+    return;
+  };
   onMount(() => {
-    videoElement.addEventListener(
-      "loadedmetadata",
-      () => (player = new videoPlayer(videoElement))
-    );
-    // setInterval(() => {
-    //   currentTime = player.currentTime;
-    //   console.log(currentTime);
-    // }, 3000);
+    checkMediaPlayState();
+    videoElement.addEventListener("loadedmetadata", () => {
+      player = new videoPlayer(videoElement);
+      fullTime.set(player.fullTime);
+      isPlaying.set(player.isPlaying);
+      hasEnded.set(player.hasEnded);
+    });
+
+    videoElement.addEventListener("timeupdate", () => {
+      fullTime.set(player.fullTime);
+      isPlaying.set(player.isPlaying);
+      checkMediaPlayState();
+    });
+    videoElement.addEventListener("ended", () => {
+      isPlaying.set(!videoElement.paused);
+      hasEnded.set(player.hasEnded);
+      checkMediaPlayState();
+    });
   });
-  // const check = () => console.log(videoElement.pause());
 </script>
 
 <main>
@@ -36,23 +61,19 @@
           <button
             on:click={() => {
               player.togglePlayState();
-              isPlaying = !isPlaying;
               // console.log(player.duration);
             }}
           >
-            {#if !isPlaying}<Icon
-                icon="material-symbols:play-arrow"
-                width="35"
-              />
-            {:else}<Icon
-                icon="material-symbols:pause-outline"
-                width="35"
-              />{/if}
+            <Icon bind:icon={$playBtn} width="35" />
+            <!-- <Icon
+              icon="material-symbols:pause-outline"
+              width="35"
+              class="hide "
+            /> -->
           </button>
           <button><Icon icon="material-symbols:skip-next" width="35" /></button>
           <button><Icon icon="material-symbols:volume-up" width="25" /></button>
-          <p>0:00 / 5:00</p>
-          <p>{player?.duration ?? "0:00"}</p>
+          <p>{$fullTime}</p>
         </div>
         <div class="secondary">
           <button><Icon icon="bi:toggle2-on" width="25" /></button>
@@ -117,7 +138,7 @@
       color: white;
       border: none;
       cursor: pointer;
-      transition: all 3s ease;
+      // transition: background 3s ease;
     }
   }
 </style>
