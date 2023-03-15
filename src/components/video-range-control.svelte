@@ -2,7 +2,6 @@
   let rangeThumb, rangeProgress;
 
   const move = function () {
-    // rangeThumb.style.left = this.value + "%";
     rangeProgress.style.width = this.value + "%";
   };
 </script>

@@ -3,6 +3,7 @@ import DT from "duration-time-conversion";
 const videoPlayer = function (media) {
   this.isPlaying = media.paused;
   this.hasEnded = media.ended;
+  this.muted = false;
   this.play = () => media.play();
   this.pause = () => media.pause();
   this.togglePlayState = () => {
@@ -33,6 +34,15 @@ const videoPlayer = function (media) {
       this.currentTime = convertToTime(media.currentTime);
       this.fullTime = `${this.currentTime} / ${this.duration}`;
     });
+  };
+
+  this.increaseVolume = (volume) => {
+    media.volume = volume / 100;
+  };
+
+  this.muteMedia = () => {
+    media.muted = !this.muted;
+    this.muted = !this.muted;
   };
 };
 

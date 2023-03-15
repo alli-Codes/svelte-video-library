@@ -12,6 +12,26 @@
   let player;
   let fullTime = writable("00:00 / 00:00");
   let playBtn = writable("");
+  let rangeProgress;
+  let volumeIcon = "up";
+
+  const move = function () {
+    rangeProgress.style.width = this.value + "%";
+    player.increaseVolume(this.value);
+    // this.value == 0 ? (volumeIcon = "off") : (volumeIcon = "up");
+    if (this.value == 0) {
+      volumeIcon = "off";
+      return;
+    }
+
+    if (this.value < 50) {
+      volumeIcon = "down";
+      return;
+    }
+
+    volumeIcon = "up";
+    return;
+  };
 
   const checkMediaPlayState = function () {
     if ($isPlaying) {
@@ -61,19 +81,37 @@
           <button
             on:click={() => {
               player.togglePlayState();
-              // console.log(player.duration);
             }}
           >
             <Icon bind:icon={$playBtn} width="35" />
-            <!-- <Icon
-              icon="material-symbols:pause-outline"
-              width="35"
-              class="hide "
-            /> -->
           </button>
           <button><Icon icon="material-symbols:skip-next" width="35" /></button>
-          <button><Icon icon="material-symbols:volume-up" width="25" /></button>
-          <p>{$fullTime}</p>
+          <button class="volume__btn">
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <i
+              on:click={() => {
+                player.muteMedia();
+                player.muted ? (volumeIcon = "off") : (volumeIcon = "up");
+              }}
+              ><Icon
+                icon="material-symbols:volume-{volumeIcon}"
+                width="28"
+              /></i
+            >
+            <div class="range__container">
+              <div class="range__wrapper">
+                <div class="range__progress" bind:this={rangeProgress} />
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value="100"
+                on:input={move}
+              />
+            </div>
+          </button>
+          <p style="font-size: 13px">{$fullTime}</p>
         </div>
         <div class="secondary">
           <button><Icon icon="bi:toggle2-on" width="25" /></button>
@@ -138,7 +176,96 @@
       color: white;
       border: none;
       cursor: pointer;
-      // transition: background 3s ease;
+      transition: all 3s ease;
+    }
+
+    .volume__btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      &:hover {
+        .range__container {
+          // display: flex;
+          animation: 0.3s ease forwards zoomIn;
+        }
+      }
+      .range__container {
+        height: 1rem;
+        width: 0;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        position: relative;
+        animation: 0.3s ease-in forwards zoomOut;
+
+        // animation: 0.4s ease backwards zoom;
+
+        @keyframes zoomIn {
+          from {
+            width: 0;
+          }
+          to {
+            width: 4.5rem;
+          }
+        }
+
+        @keyframes zoomOut {
+          from {
+            width: 4.5rem;
+          }
+          to {
+            width: 0;
+          }
+        }
+        .range__wrapper {
+          background-color: rgb(124, 124, 124);
+          width: 100%;
+          height: 0.19rem;
+          outline: none;
+          border-radius: 0.3rem;
+          cursor: pointer;
+          transition: transform 0.4s ease;
+          position: absolute;
+          left: 0;
+          overflow: hidden;
+          .range__progress {
+            background-color: white;
+            height: 100%;
+            width: 100%;
+          }
+        }
+      }
+      // }
+      input {
+        -webkit-appearance: none;
+        background-color: transparent;
+        width: 100%;
+        height: 0.19rem;
+        outline: none;
+        border-radius: 0.3rem;
+        position: relative;
+        z-index: 20;
+        cursor: pointer;
+      }
+
+      input:focus {
+        .range__container {
+          animation: 0.3s ease forwards zoomIn;
+        }
+      }
+
+      input::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        background: white;
+        width: 0.9rem;
+        height: 0.9rem;
+        border-radius: 2rem;
+        cursor: pointer;
+        z-index: 3;
+        transition: transform 0.3s ease;
+        position: relative;
+      }
     }
   }
 </style>
