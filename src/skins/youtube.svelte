@@ -8,8 +8,16 @@
   let videoElement;
   let isPlaying = false;
   let player;
+  // let currentTime = 0;
   onMount(() => {
-    player = new videoPlayer(videoElement);
+    videoElement.addEventListener(
+      "loadedmetadata",
+      () => (player = new videoPlayer(videoElement))
+    );
+    // setInterval(() => {
+    //   currentTime = player.currentTime;
+    //   console.log(currentTime);
+    // }, 3000);
   });
   // const check = () => console.log(videoElement.pause());
 </script>
@@ -18,7 +26,7 @@
   <div class="container">
     <!-- <h1>Youtube</h1> -->
     <!-- svelte-ignore a11y-media-has-caption -->
-    <video bind:this={videoElement}>
+    <video bind:this={videoElement} on:timeupdate={player.checkForTimeUpdate}>
       <source src="/assets/video.mp4" type="video/mp4" />
     </video>
     <div class="controls__wrapper">
@@ -29,6 +37,7 @@
             on:click={() => {
               player.togglePlayState();
               isPlaying = !isPlaying;
+              // console.log(player.duration);
             }}
           >
             {#if !isPlaying}<Icon
@@ -43,6 +52,7 @@
           <button><Icon icon="material-symbols:skip-next" width="35" /></button>
           <button><Icon icon="material-symbols:volume-up" width="25" /></button>
           <p>0:00 / 5:00</p>
+          <p>{player?.duration ?? "0:00"}</p>
         </div>
         <div class="secondary">
           <button><Icon icon="bi:toggle2-on" width="25" /></button>

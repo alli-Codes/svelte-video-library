@@ -560,6 +560,11 @@ detect-indent@^6.1.0:
   resolved "https://registry.yarnpkg.com/detect-indent/-/detect-indent-6.1.0.tgz#592485ebbbf6b3b1ab2be175c8393d04ca0d57e6"
   integrity sha512-reYkTUJAZb9gUuZ2RvVCNhVHdg62RHnJ7WJl8ftMi4diZ6NWlciOzQN88pUhSELEwflJht4oQDv0F0BMlwaYtA==
 
+duration-time-conversion@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/duration-time-conversion/-/duration-time-conversion-1.0.6.tgz#f408c85c865039f92e82021f6d1205e1f7f20798"
+  integrity sha512-WwQT3UOdEb/1wI3Bxgw0M/QaJhDGy0tSdu2gjKItbatEx2imQ8iX/532386rDjidqIG4v8kw0nT38OthSBgYgQ==
+
 emoji-regex@^8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-8.0.0.tgz#e818fd69ce5ccfcb404594f842963bf53164cc37"
