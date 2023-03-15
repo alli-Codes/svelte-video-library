@@ -1,9 +1,19 @@
 <script>
   let rangeThumb, rangeProgress;
+  export let currentTime, duration;
 
-  const move = function () {
-    rangeProgress.style.width = this.value + "%";
+  const convertToPercentage = (current, total) => {
+    let result = (current / total) * 100;
+    return result;
   };
+  const move = () => {
+    setInterval(() => {
+      rangeProgress.style.width =
+        convertToPercentage(currentTime, duration) + "%";
+      // console.log(currentTime, duration);
+    }, 100);
+  };
+  move();
 </script>
 
 <main>
@@ -12,7 +22,7 @@
       type="range"
       class="range__input"
       min="0"
-      max="100"
+      max="20"
       value="0"
       on:input={move}
     />
@@ -56,6 +66,7 @@
         background-color: red;
         width: 0%;
         height: 100%;
+        // transition: all 0.1s ease-in;
       }
     }
   }

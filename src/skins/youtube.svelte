@@ -6,11 +6,13 @@
   import videoPlayer from "../lib/playPauseMedia";
   //   import pauseOutline from "@iconify/icons-material-symbols/pause-outline";
 
+  let player;
   let videoElement;
   let isPlaying = writable(false);
   let hasEnded = writable(false);
-  let player;
   let fullTime = writable("00:00 / 00:00");
+  let duration = writable(0);
+  let currentTime = writable(0);
   let playBtn = writable("");
   let rangeProgress;
   let volumeIcon = "up";
@@ -18,7 +20,6 @@
   const move = function () {
     rangeProgress.style.width = this.value + "%";
     player.increaseVolume(this.value);
-    // this.value == 0 ? (volumeIcon = "off") : (volumeIcon = "up");
     if (this.value == 0) {
       volumeIcon = "off";
       return;
@@ -50,12 +51,16 @@
     videoElement.addEventListener("loadedmetadata", () => {
       player = new videoPlayer(videoElement);
       fullTime.set(player.fullTime);
+      duration.set(videoElement.duration);
+      currentTime.set(videoElement.currentTime);
       isPlaying.set(player.isPlaying);
       hasEnded.set(player.hasEnded);
     });
 
     videoElement.addEventListener("timeupdate", () => {
       fullTime.set(player.fullTime);
+      duration.set(videoElement.duration);
+      currentTime.set(videoElement.currentTime);
       isPlaying.set(player.isPlaying);
       checkMediaPlayState();
     });
@@ -75,7 +80,7 @@
       <source src="/assets/video.mp4" type="video/mp4" />
     </video>
     <div class="controls__wrapper">
-      <VideoRangeControl />
+      <VideoRangeControl currentTime={$currentTime} duration={$duration} />
       <div class="controls__icons">
         <div class="primary">
           <button
